@@ -18,11 +18,11 @@ var X{i in FLUIDES, j in MAGASINS, k in DEMMANDES}, >=0;
 
 ###################  Constants: Data to load   #########################
 
-param demandesFluides{i in DEMMANDES, j in FLUIDES};
+param demandesFluides{k in DEMMANDES, i in FLUIDES};
 
-param stocks{i in MAGASINS, j in FLUIDES};
+param stocks{j in MAGASINS, i in FLUIDES};
 
-param couts{i in MAGASINS, j in FLUIDES};
+param couts{j in MAGASINS, i in FLUIDES};
 
 
 ################### Constraints ###################
@@ -31,14 +31,14 @@ param couts{i in MAGASINS, j in FLUIDES};
 s.t. respectStock{i in FLUIDES, j in MAGASINS}:
   sum{k in DEMMANDES} X[i,j,k] <= stocks[j,i];
 
-s.t. respectDemandes{i in FLUIDES, j in DEMMANDES}:
-  sum{k in MAGASINS} X[i,k,j] == demandesFluides[j,i];
+s.t. respectDemandes{i in FLUIDES, k in DEMMANDES}:
+  sum{j in MAGASINS} X[i,j,k] >= demandesFluides[k,i];
 
 
 ###### Objective ######
 
-minimize Cout{k in DEMMANDES}: 
-	sum{i in FLUIDES} sum{j in MAGASINS} X[i,j,k]*couts[j,i]; 
+minimize Cout: 
+	sum{i in FLUIDES, j in MAGASINS, k in DEMMANDES} X[i,j,k]*couts[j,i]; 
 
 #end;
 
