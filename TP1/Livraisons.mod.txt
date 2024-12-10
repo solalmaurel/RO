@@ -1,0 +1,48 @@
+############################## Sets ##############################
+set NODES;
+param dist{NODES, NODES};
+
+############################## Variables ##############################
+var x{NODES, NODES} binary;     # x(i,j)=1 si on prend l'arc (i,j)
+var u{NODES} >= 0;             # pour éviter les doublons 
+
+
+
+############################## Constraints ##############################
+# Chaque noeud est visité exactement une fois (départ)
+s.t. PartUneFois{i in NODES}:
+  sum{j in NODES: j != i} x[i, j] = 1;
+
+# Chaque noeud est visité exactement une fois (arrivée)
+s.t. ArriveUneFois{j in NODES}:
+  sum{i in NODES: i != j} x[i, j] = 1;
+
+# Contrainte MTZ pour éviter les doublons
+s.t. PasDoublons{i in NODES, j in NODES: i != j and i != "ALPHA" and j != "ALPHA"}:
+  u[i] - u[j] + (card(NODES) * x[i, j]) <= card(NODES) - 1;
+
+# Fixer le départ au magasin ALPHA
+s.t. DepartAlpha:
+  u["ALPHA"] = 0;
+
+
+############################## Objective ##############################
+minimize DistanceMin: 
+  sum{i in NODES, j in NODES: i != j} dist[i, j] * x[i, j];
+
+
+
+############################## Data ##############################
+data;
+
+set NODES := ALPHA C1 C2 C3 C4 C5;
+
+param dist: ALPHA  C1  C2  C3  C4  C5 :=
+ALPHA   0    1   1   10   12   12
+C1       1   0    1    8   10   11
+C2       1   1   0     8   11   10
+C3      10   8    8   0     1    1
+C4      12  10   11   1    0     1
+C5      12  11   10   1     1   0 ;
+
+end;
