@@ -1,0 +1,69 @@
+Problem:    ECommerce2
+Rows:       17
+Columns:    18 (6 integer, 6 binary)
+Non-zeros:  60
+Status:     INTEGER OPTIMAL
+Objective:  Cout = 354 (MINimum)
+
+   No.   Row name        Activity     Lower bound   Upper bound
+------ ------------    ------------- ------------- -------------
+     1 respectStock[F1,M1]
+                                   1                         2.5 
+     2 respectStock[F1,M2]
+                                   0                           1 
+     3 respectStock[F1,M3]
+                                   2                           2 
+     4 respectStock[F2,M1]
+                                   1                           1 
+     5 respectStock[F2,M2]
+                                   2                           2 
+     6 respectStock[F2,M3]
+                                   0                           1 
+     7 respectDemandes[F1,D1]
+                                   2             2             = 
+     8 respectDemandes[F1,D2]
+                                   1             1             = 
+     9 respectDemandes[F2,D1]
+                                   0            -0             = 
+    10 respectDemandes[F2,D2]
+                                   3             3             = 
+    11 C3[M1,D1]                   0                          -0 
+    12 C3[M1,D2]                -1.5                          -0 
+    13 C3[M2,D1]                   0                          -0 
+    14 C3[M2,D2]                  -1                          -0 
+    15 C3[M3,D1]                  -1                          -0 
+    16 C3[M3,D2]                   0                          -0 
+    17 Cout                      354                             
+
+   No. Column name       Activity     Lower bound   Upper bound
+------ ------------    ------------- ------------- -------------
+     1 X[F1,M1,D1]                 0             0               
+     2 X[F1,M1,D2]                 1             0               
+     3 X[F1,M2,D1]                 0             0               
+     4 X[F1,M2,D2]                 0             0               
+     5 X[F1,M3,D1]                 2             0               
+     6 X[F1,M3,D2]                 0             0               
+     7 X[F2,M1,D1]                 0             0               
+     8 X[F2,M1,D2]                 1             0               
+     9 X[F2,M2,D1]                 0             0               
+    10 X[F2,M2,D2]                 2             0               
+    11 X[F2,M3,D1]                 0             0               
+    12 X[F2,M3,D2]                 0             0               
+    13 V[D1,M1]     *              0             0             1 
+    14 V[D2,M1]     *              1             0             1 
+    15 V[D1,M2]     *              0             0             1 
+    16 V[D2,M2]     *              1             0             1 
+    17 V[D1,M3]     *              1             0             1 
+    18 V[D2,M3]     *              0             0             1 
+
+Integer feasibility conditions:
+
+KKT.PE: max.abs.err = 0.00e+00 on row 0
+        max.rel.err = 0.00e+00 on row 0
+        High quality
+
+KKT.PB: max.abs.err = 0.00e+00 on row 0
+        max.rel.err = 0.00e+00 on row 0
+        High quality
+
+End of output

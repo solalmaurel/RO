@@ -1,0 +1,89 @@
+
+###############################  Model ###############################
+
+
+
+###############################  Sets  ###############################
+
+set DEMMANDES; 
+
+set FLUIDES;	
+
+set MAGASINS;
+
+################### Variables ###################
+
+var X{i in FLUIDES, j in MAGASINS, k in DEMMANDES}, >=0; 
+
+var V{k in DEMMANDES, j in MAGASINS}, binary;
+
+
+###################  Constants: Data to load   #########################
+
+param demandesFluides{k in DEMMANDES, i in FLUIDES};
+
+param stocks{j in MAGASINS, i in FLUIDES};
+
+param coutsFixes{k in DEMMANDES, j in MAGASINS};
+
+param coutsVariables{k in DEMMANDES, j in MAGASINS};
+
+
+################### Constraints ###################
+
+
+s.t. respectStock{i in FLUIDES, j in MAGASINS}:
+  sum{k in DEMMANDES} X[i,j,k] <= stocks[j,i];
+
+s.t. respectDemandes{i in FLUIDES, k in DEMMANDES}:
+  sum{j in MAGASINS} X[i,j,k] == demandesFluides[k,i];
+
+s.t. C3{j in MAGASINS, k in DEMMANDES}:
+  sum{i in FLUIDES} X[i,j,k] <= V[k,j]*sum{i in FLUIDES} stocks[j,i];
+
+
+###### Objective ######
+
+minimize Cout: 
+	sum{i in FLUIDES, j in MAGASINS, k in DEMMANDES} X[i,j,k]*coutsVariables[k,j]
+    + sum{k in DEMMANDES, j in MAGASINS} coutsFixes[k,j]*V[k,j]; 
+
+#end;
+
+
+#default data
+
+data;
+
+set DEMMANDES := 
+D1
+D2;
+
+set FLUIDES :=
+F1
+F2;
+
+set MAGASINS :=
+M1
+M2
+M3;
+
+param demandesFluides: F1 F2 :=
+D1 2 0
+D2 1 3;
+
+param stocks: F1 F2 :=
+M1 2.5 1
+M2 1 2
+M3 2 1;
+
+param coutsFixes: M1 M2 M3 :=
+D1 110 90 100
+D2 110 90 100;
+
+param coutsVariables: M1 M2 M3 :=
+D1 10 1 5
+D2 2 20 10;
+
+
+end;
